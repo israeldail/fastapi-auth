@@ -3,7 +3,7 @@ import uvicorn
 from routes.users import user_router
 from typing import Annotated
 from sqlmodel import Session, SQLModel, create_engine
-from models.hero_model import Hero
+from models.user_model import User
 
 app = FastAPI(
     title="FastAPI Auth", version="1.0.0", docs_url="/docs", redoc_url="/redocs"
@@ -19,7 +19,7 @@ engine = create_engine(sqlite_url, connect_args=connect_args)
 
 
 def create_db_and_tables():
-    Hero.metadata.create_all(engine)
+    User.metadata.create_all(engine)
 
 
 def get_session():
