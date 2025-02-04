@@ -1,8 +1,9 @@
 from typing import Annotated
-from fastapi import APIRouter, Query
+from fastapi import APIRouter, Depends, Query
 from sqlmodel import select
 from models.user_model import User
 from config.db_config import sessionDep
+from config.security import verify_creds
 
 user_router = APIRouter()
 
@@ -23,3 +24,8 @@ def create_user(user: User, session: sessionDep) -> User:
     session.commit()
     session.refresh(user)
     return user
+
+
+@user_router.post("/user/protected")
+def read_protected_user(username: str = Depends(verify_creds)):
+    return {"message": f"Hello {username}"}
